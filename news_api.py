@@ -1,20 +1,33 @@
 from gdeltdoc import GdeltDoc, Filters
+import time
 
-print("gdeltdoc import 성공")
 
 def get_news_metadata():
 
-    filters = Filters(
-        start_date="2024-03-20",
-        end_date="2024-03-25",
-        num_records=250,
-        keyword="nvidia",
-        domain="cnn.com",
-        country="US"
-    )
+    for attempt in range(3):
 
-    gd = GdeltDoc()
+        try:
 
-    articles = gd.article_search(filters)
+            filters = Filters(
+                start_date="2024-03-20",
+                end_date="2024-03-25",
+                num_records=250,
+                keyword="nvidia",
+                domain="cnn.com",
+                country="US"
+            )
 
-    return articles
+            gd = GdeltDoc()
+
+            articles = gd.article_search(filters)
+
+            return articles
+
+        except Exception as e:
+
+            print(f"[ERROR] GDELT 뉴스 검색 실패 (시도 {attempt + 1}/3)")
+            print(e)
+
+            time.sleep(5)
+
+    return []
