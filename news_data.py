@@ -8,6 +8,8 @@ import time
 
 def main():
 
+    print("뉴스 데이터 수집 시작")
+
     # 뉴스 메타데이터 검색
     articles = get_news_metadata()
 
@@ -15,6 +17,23 @@ def main():
     if len(articles) == 0:
 
         print("검색된 뉴스가 없습니다.")
+
+        df = pd.DataFrame(
+            columns=[
+                "title",
+                "url",
+                "publish_date",
+                "authors",
+                "text"
+            ]
+        )
+
+        df.to_csv(
+            "nvidia_cnn_articles.csv",
+            index=False,
+            encoding="utf-8-sig"
+        )
+
         return
 
     print(f"검색된 기사 수: {len(articles)}")
